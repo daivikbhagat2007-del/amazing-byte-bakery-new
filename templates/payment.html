@@ -1,0 +1,11 @@
+{% extends "base.html" %}{% block content %}<div class="col-md-6 mx-auto text-center"><h2>Pay for order #{{ o.id }}</h2>
+<p>Amount: <strong>₹{{ '%.2f'|format(o.total) }}</strong></p>
+<button id="pay" class="btn btn-choc btn-lg">Pay now</button>
+<form id="vf" method="post" action="{{ url_for('payment_verify') }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<input type="hidden" name="razorpay_order_id" id="oid"><input type="hidden" name="razorpay_payment_id" id="pid"><input type="hidden" name="razorpay_signature" id="sig"></form></div>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+var r=new Razorpay({key:"{{ key_id }}",amount:{{ paise }},currency:"INR",name:"Amazing Byte Bakery",order_id:"{{ o.gateway_order_id }}",
+handler:function(x){oid.value=x.razorpay_order_id;pid.value=x.razorpay_payment_id;sig.value=x.razorpay_signature;vf.submit();}});
+pay.onclick=function(){r.open();};
+</script>{% endblock %}

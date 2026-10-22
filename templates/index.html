@@ -1,0 +1,21 @@
+{% extends "base.html" %}{% block content %}
+<div class="hero p-4 mb-4"><h1>Freshly baked, delivered to you</h1><p class="mb-0">Birthday, chocolate and custom cakes, pastries and cupcakes.</p></div>
+<form class="row g-2 mb-4" method="get">
+<div class="col-12 col-md-6"><input class="form-control" name="q" value="{{ q }}" placeholder="Search cakes"></div>
+<div class="col-8 col-md-4"><select class="form-select" name="category"><option value="">All categories</option>
+{% for c in categories %}<option value="{{ c.id }}" {{ 'selected' if cat == c.id }}>{{ c.name }}</option>{% endfor %}</select></div>
+<div class="col-4 col-md-2"><button class="btn btn-choc w-100">Search</button></div></form>
+<div class="row g-3">
+{% for c in cakes %}<div class="col-12 col-sm-6 col-lg-4"><div class="card h-100">
+{% if c.image_url %}<img class="card-img-top" loading="lazy" src="{{ c.image_url }}" alt="{{ c.name }}">{% else %}<div class="ph">🎂</div>{% endif %}
+<div class="card-body d-flex flex-column"><small class="text-muted">{{ c.category }}</small><h5>{{ c.name }}</h5>
+<p class="small">{{ c.description }}</p>
+<div class="mt-auto"><div class="d-flex justify-content-between align-items-center mb-2"><strong>₹{{ '%.2f'|format(c.price) }}</strong>
+{% if c.available %}<span class="badge badge-soft">Available</span>{% else %}<span class="badge badge-off">Unavailable</span>{% endif %}</div>
+{% if c.available %}<form method="post" action="{{ url_for('cart_set') }}" class="d-flex gap-2">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="cake_id" value="{{ c.id }}"><input type="hidden" name="mode" value="add">
+<input type="number" name="qty" value="1" min="1" max="20" class="form-control" style="width:80px"><button class="btn btn-choc flex-grow-1">Add to cart</button></form>{% endif %}
+</div></div></div></div>{% else %}<p>No cakes found.</p>{% endfor %}</div>
+<section id="about" class="mt-5"><h3>About Us</h3><p>Amazing Byte Bakery bakes small batches of cakes and pastries to order. [Edit this text with your story.]</p></section>
+<section id="contact" class="mt-4"><h3>Contact</h3><p>Phone: [9328184460] · Email: [daivik2007@gmail.com] · Address: [valsad,new market,near church]</p></section>
+{% endblock %}

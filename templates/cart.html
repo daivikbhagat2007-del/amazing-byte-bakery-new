@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% block content %}<h2>Your cart</h2>
+{% if items %}<div class="table-responsive"><table class="table align-middle"><thead><tr><th>Item</th><th>Price</th><th>Qty</th><th>Total</th></tr></thead><tbody>
+{% for i in items %}<tr><td>{{ i.name }}</td><td>₹{{ '%.2f'|format(i.price) }}</td>
+<td><form method="post" action="{{ url_for('cart_set') }}" class="d-flex gap-1"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="cake_id" value="{{ i.id }}">
+<input type="number" name="qty" value="{{ i.qty }}" min="0" max="20" class="form-control" style="width:80px"><button class="btn btn-sm btn-choc">Update</button></form></td>
+<td>₹{{ '%.2f'|format(i.line) }}</td></tr>{% endfor %}</tbody></table></div>
+<p class="small text-muted">Set quantity to 0 to remove an item.</p>
+<h4>Total: ₹{{ '%.2f'|format(total) }}</h4><a class="btn btn-choc" href="{{ url_for('checkout') }}">Checkout</a>
+{% else %}<p>Your cart is empty. <a href="{{ url_for('index') }}">Browse cakes</a></p>{% endif %}{% endblock %}

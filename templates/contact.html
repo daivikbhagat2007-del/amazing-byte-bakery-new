@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-4">
+    <h2>Contact Us</h2>
+    <p>Have a question? Send us a message!</p>
+
+    <form method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input type="text" name="name" class="form-control mb-3"
+               placeholder="Your Name" required>
+
+        <input type="email" name="email" class="form-control mb-3"
+               placeholder="Your Email" required>
+
+        <textarea name="message" class="form-control mb-3"
+                  placeholder="Your Message" required></textarea>
+
+        <button type="submit" class="btn btn-choc">Send Message</button>
+    </form>
+</div>
+{% endblock %}

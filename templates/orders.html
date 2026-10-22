@@ -1,0 +1,8 @@
+{% extends "base.html" %}{% block content %}<h2>My orders</h2>
+{% for o in orders %}<div class="card mb-3"><div class="card-body">
+<div class="d-flex justify-content-between flex-wrap"><strong>Order #{{ o.id }}</strong><span>{{ o.created_at.strftime('%d %b %Y %H:%M') }}</span></div>
+<p class="mb-1">Status: <b>{{ o.status.replace('_',' ') }}</b> · Payment: <b>{{ o.payment_method|upper }} / {{ o.pay_status }}</b></p>
+<ul class="mb-1">{% for i in o['items'] %}<li>{{ i.name }} × {{ i.qty }} — ₹{{ '%.2f'|format(i.price * i.qty) }}</li>{% endfor %}</ul>
+<p class="mb-0 small">Deliver to: {{ o.line1 }}, {{ o.city }} {{ o.pincode }} · <strong>Total ₹{{ '%.2f'|format(o.total) }}</strong></p>
+{% if o.status == 'awaiting_payment' and o.payment_method == 'online' %}<a class="btn btn-sm btn-choc mt-2" href="{{ url_for('payment', order_id=o.id) }}">Complete payment</a>{% endif %}
+</div></div>{% else %}<p>No orders yet.</p>{% endfor %}{% endblock %}

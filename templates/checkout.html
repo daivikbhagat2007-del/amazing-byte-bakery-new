@@ -1,0 +1,10 @@
+{% extends "base.html" %}{% block content %}<div class="col-md-7 mx-auto"><h2>Checkout</h2>
+<ul class="list-group mb-3">{% for i in items %}<li class="list-group-item d-flex justify-content-between"><span>{{ i.name }} × {{ i.qty }}</span><span>₹{{ '%.2f'|format(i.line) }}</span></li>{% endfor %}
+<li class="list-group-item d-flex justify-content-between fw-bold"><span>Total</span><span>₹{{ '%.2f'|format(total) }}</span></li></ul>
+<form method="post"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<input class="form-control mb-2" name="line1" placeholder="Delivery address" value="{{ a.get('line1','') }}" required>
+<div class="row g-2 mb-3"><div class="col"><input class="form-control" name="city" placeholder="City" value="{{ a.get('city','') }}" required></div>
+<div class="col"><input class="form-control" name="pincode" maxlength="6" inputmode="numeric" placeholder="Pincode" value="{{ a.get('pincode','') }}" required></div></div>
+<div class="form-check"><input class="form-check-input" type="radio" name="method" value="online" id="m1" checked><label class="form-check-label" for="m1">Pay online (UPI, cards, net banking)</label></div>
+<div class="form-check mb-3"><input class="form-check-input" type="radio" name="method" value="cod" id="m2"><label class="form-check-label" for="m2">Cash on Delivery</label></div>
+<button class="btn btn-choc w-100">Place order</button></form></div>{% endblock %}

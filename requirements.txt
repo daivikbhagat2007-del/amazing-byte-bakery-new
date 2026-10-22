@@ -1,0 +1,8 @@
+Flask==3.0.3
+Flask-WTF==1.2.1
+Flask-Limiter==3.8.0
+mysql-connector-python==9.0.0
+razorpay==1.4.2
+gunicorn==22.0.0
+setuptools<81
+python-dotenv
